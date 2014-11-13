@@ -5,16 +5,17 @@
  */
 public class Scholarship extends Person {
 	private int maxNumAccepts; //maximum number of recipients for this scholarship
-	private int currentAccepts;//current number of recipients, cannot be greater than maxNumAccepts 
+	private int currentAccepts;//current number of recipients, cannot be greater than maxNumAccepts
+	private int amount;		   //Award amount of scholarship
 	
-	public Scholarship(String name, int id, String major, float grade, int hours, int max, int current) {
+	public Scholarship(String name, String major, float grade, int hours, int amount, int max) {
 		this.name = name;   //scholarship name
-		idNumber = id;      // 
 		this.major = major; //required major for @name
 		gpa = grade;		//required gpa for @name	
-		creditHours = hours;//requred credit hours for @name
+		creditHours = hours;//required credit hours for @name
 		maxNumAccepts = max;
-		currentAccepts = current;
+		this.amount = amount;
+		currentAccepts = 0;
 	}
 	public String getName() {
 		return name;
@@ -31,5 +32,7 @@ public class Scholarship extends Person {
 	public int getHours() {
 		return creditHours;
 	}
-
+	public void save() {
+		
+	}
 }
