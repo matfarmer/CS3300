@@ -10,8 +10,11 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -25,31 +28,13 @@ import javax.swing.JTextField;
  */
 public class StudentGUI extends JFrame 
 {
-	private static String[] majorsString = { "",
- 
- 									 "Aviation", 
- 									 "Agriculture", 
- 									 "Architecture", 
- 									 "Business", 
- 									 "Communications", 
- 									 "Computer Science",  
- 									 "Computer Engineering", 
- 									 "Construction", 
- 									 "Educations", 
- 									 "Engineering", 
- 									 "English", 
- 									 "Foreign Languages", 
- 									 "Health Professions", 
- 									 "History", 
- 									 "Mathematics", 
- 									 "Philosopy" 
-									}; 
+	private static String[] majorsString;
 	private static String[] listFields;
 	private static JTextField nameTextLabel = new JTextField(10);
 	private JTextField degreeTextLabel = new JTextField(10);
     private static JTextField GPATextLabel = new JTextField(10);
     private static JTextField hoursTextLabel = new JTextField(10);
-    private static JComboBox cmbMajor = new JComboBox(majorsString);
+    private static JComboBox cmbMajor;
     private static JComboBox cmbScholarship;
     private JLabel lblScholarship = new JLabel("Scholarship");
     private JButton backButton = new JButton ("Back") ;
@@ -71,12 +56,14 @@ public class StudentGUI extends JFrame
     	this.frame = frame;
     	this.x = x;
     	this.y = y;
+    	setMajors();
     	save = new SaveControl();
     	myList = new LinkedList<Scholarship>();
     	myList = save.getList();
     	data = new Object[myList.size()][7];
     	initializeData();
     	CreateScholarshipComboBox();
+    	cmbMajor = new JComboBox(majorsString);
     	JLabel lblBlank = new JLabel("");
         
         panel.setLayout(new GridLayout(7,2));
@@ -234,6 +221,24 @@ public class StudentGUI extends JFrame
     	int current = ((int) data[selected][6]);
 
     	return new Scholarship(name, major, gpa, hours, amount, max, current);
+    }
+    private static void setMajors() {
     	
+    	LinkedList<String> myList = new LinkedList<String>();
+    	String temp;
+    	try {
+    		File file = new File("MajorsText.txt");
+    		Scanner input = new Scanner(file);
+    		while(input.hasNext()) {
+    			temp = input.nextLine();
+    			myList.add(temp);
+    			System.out.println(temp);
+    		}
+    		input.close();
+    	} catch(FileNotFoundException e) {}
+    	majorsString = new String[myList.size()];
+    	for(int i = 0; i < majorsString.length; i++) {
+    		majorsString[i] = myList.get(i);
+    	}
     }
 }

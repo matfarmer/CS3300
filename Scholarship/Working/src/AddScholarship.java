@@ -3,6 +3,10 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,25 +22,7 @@ public class AddScholarship {
 	private static JFrame frame;
 	static int x, y;
 	
-	private static String[] majorsString = { "",
-									 "Aviation",
-									 "Agriculture",
-									 "Architecture",
-									 "Business",
-									 "Communications",
-									 "Computer Science", 
-									 "Computer Engineering",
-									 "Construction",
-									 "Educations",
-									 "Engineering",
-									 "English",
-									 "Foreign Languages",
-									 "Health Professions",
-									 "History",
-									 "Mathematics",
-									 "Philosopy"
-									};
-	
+	private static String[] majorsString;	
 	private JLabel lblName;
 	private JLabel lblMajor;
 	private JLabel lblGPA;	
@@ -56,6 +42,7 @@ public class AddScholarship {
 		this.frame = frame;
 		this.x = x;
 		this.y = y;
+		setMajors();
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(7,2));
 		
@@ -172,4 +159,20 @@ public class AddScholarship {
 			}			
 		}
 	}
+	private static void setMajors() {
+    	
+    	LinkedList<String> myList = new LinkedList<String>();
+    	try {
+    		File file = new File("MajorsText.txt");
+    		Scanner input = new Scanner(file);
+    		while(input.hasNext()) {
+    			myList.add(input.nextLine());
+    		}
+    		input.close();
+    	} catch(FileNotFoundException e) {}
+    	majorsString = new String[myList.size()];
+    	for(int i = 0; i < majorsString.length; i++) {
+    		majorsString[i] = myList.get(i);
+    	}
+    }
 }
